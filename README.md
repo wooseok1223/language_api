@@ -13,6 +13,10 @@
     - port : 5000, host : 0.0.0.0
     - http://127.0.0.1:5000/search?query=링크 이와같은 링크 바라보면됨
 
+![도커 기본 데이터 세팅](img/test_docker_img.png)
+
+![도커 컨테이너](img/docker_img.png)
+
 ### 1 - 1 테스트 하는방법
 ****
 기본적으로 도커가 설치되어 있어야합니다.
@@ -27,7 +31,7 @@
 - cd tests
 - python -m pytest --cov=../app
 
-![result](test_result.png)
+![result](img/test_result.png)
 
 
 
