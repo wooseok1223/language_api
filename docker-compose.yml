@@ -10,6 +10,9 @@ services:
         - ./schema/:/docker-entrypoint-initdb.d/
     ports:
       - '3306:3306'
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.5
 
   server:
     build: ./
@@ -25,8 +28,19 @@ services:
       - DB_PASSWD_TEST=${DB_PASSWD_TEST}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_HOST=172.18.0.2
+      - MYSQL_HOST=10.5.0.5
       - MYSQL_PORT=${MYSQL_PORT}
       - MYSQL_DB=${MYSQL_DB}
     ports:
       - '5000:5000'
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.6
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
