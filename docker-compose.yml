@@ -1,0 +1,32 @@
+version: "3.2"
+
+services:
+  db-server:
+    image: mysql:5.6
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DB}
+    volumes:
+        - ./schema/:/docker-entrypoint-initdb.d/
+    ports:
+      - '3306:3306'
+
+  server:
+    build: ./
+    volumes:
+      - ./app:/app
+    depends_on:
+      - db-server
+    environment:
+      - FLASK_ENV=${ENV}
+      - SQLALCHEMY_URI_DEV=${SQLALCHEMY_URI_DEV}
+      - DB_PASSWD_DEV=${DB_PASSWD_DEV}
+      - SQLALCHEMY_URI_TEST=${SQLALCHEMY_URI_TEST}
+      - DB_PASSWD_TEST=${DB_PASSWD_TEST}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_HOST=172.18.0.2
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DB=${MYSQL_DB}
+    ports:
+      - '5000:5000'
